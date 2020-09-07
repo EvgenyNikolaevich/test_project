@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username:        <%= String(ENV['DB_USER'] || 'ruby') %>
+  password:        <%= String(ENV['DB_PASSWORD'] || 'ruby') %>
+  host:            <%= String(ENV['DB_HOST'] || 'localhost') %>
+  max_connections: <%= Integer(ENV['PUMA_MAX_THREADS'] || 10) %>
+
+development:
+  <<: *default
+  database: <%= String(ENV['DB_NAME'] || 'test_project_dev') %>
+
+test:
+  <<: *default
+  database: <%= String(ENV['DB_NAME'] || 'test_project_test') %>
+
+production:
+  <<: *default
+  database: <%= String(ENV['DB_NAME']) %>
