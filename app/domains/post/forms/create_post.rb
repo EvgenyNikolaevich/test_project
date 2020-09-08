@@ -8,19 +8,33 @@ module Domains
 
         def perform(_valid_params)
           Sequences::CreatePost.call(
-            # user_uid: payload[:user_uid],
-            # number: number
+            title: title,
+            article: article,
+            login: login,
+            ip: ip
           )
         end
 
         private
 
-        def payload
-          @payload ||= valid_params.dig(:data, :attributes) || {}
+        def title
+          attributes.dig(:title)
         end
 
-        def number
-          Phonelib.parse(payload[:number]).sanitized
+        def article
+          attributes.dig(:article)
+        end
+
+        def login
+          attributes.dig(:login)
+        end
+
+        def ip
+          attributes.dig(:ip)
+        end
+
+        def attributes
+          @attributes ||= valid_params.dig(:data, :attributes) || {}
         end
       end
     end
