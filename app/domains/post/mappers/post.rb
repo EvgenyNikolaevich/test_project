@@ -7,7 +7,7 @@ module Domains
         KEYS = %i[
           id user_id
           title article
-          created_at updated_at
+          author_ip
         ].freeze
 
         class << self
