@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 module Domains
-  module User
+  module Post
     class Mapper < LunaPark::Mappers::Simple
-      KEYS = %i[id login].freeze
+      KEYS = %i[
+          id user_id
+          title article
+          author_ip
+        ].freeze
 
       class << self
         def from_row(row)

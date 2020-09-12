@@ -91,6 +91,8 @@ GEM
     i18n (1.2.0)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.1)
+    jsonapi-serializers (1.0.1)
+      activesupport
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -212,6 +214,7 @@ DEPENDENCIES
   dry-validation
   factory_bot
   git
+  jsonapi-serializers
   luna_park!
   pg (~> 0.18)
   pry

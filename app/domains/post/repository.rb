@@ -1,20 +1,12 @@
 # frozen_string_literal: true
 
 module Domains
-  module User
+  module Post
+    # work with DB for posts
     class Repository < LunaPark::Repositories::Sequel
       entity Entity
       mapper Mapper
 
-      def find_or_create_by_login(login)
-        find_by_login(login) || create(login)
-      end
-
-      def find_by_login(login)
-        read_one users.where(login: login)
-      end
-
-      # TODO: move to mixins?
       def create(input)
         entity    = wrap(input)
         row       = to_row(entity)
@@ -24,13 +16,21 @@ module Domains
         entity
       end
 
+      def find(id)
+        read_one posts.where(id: id).first
+      end
+
+      def exists?(id)
+        !dataset.where(id: id).empty?
+      end
+
       private
 
       def dataset
-        DB[:users]
+        DB[:posts]
       end
 
-      alias users dataset
+      alias posts dataset
     end
   end
 end
