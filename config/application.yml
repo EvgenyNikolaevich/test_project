@@ -1,0 +1,12 @@
+---
+default: &default
+  bugsnag_key: <%= String(ENV['BUGSNAG_API_KEY']) || '' %>
+
+development:
+  <<: *default
+
+production:
+  <<: *default
+
+test:
+  <<: *default
