@@ -10,8 +10,8 @@ module Domains
       attr :title
       attr :article
       attr :author_ip
-      # foreign_key user_id for table user
-      fk   :user_id, :user, pk: :id
+      # foreign_key author_login for table user
+      fk   :author_login, :user, pk: :login
     end
   end
 end

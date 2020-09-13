@@ -3,11 +3,11 @@
 module Domains
   module Post
     # JSON API serialization
-    class Serializer < Abstract::Serializer
+    class Serializer
       include JSONAPI::Serializer
 
       attribute(:title)
-      attribute(:user_id)
+      attribute(:author_login)
       attribute(:article)
       attribute(:author_ip)
 
@@ -16,7 +16,7 @@ module Domains
       end
 
       def id
-        object.uid
+        object.id.to_s
       end
 
       def self_link; end

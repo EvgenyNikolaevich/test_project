@@ -14,7 +14,6 @@ module Domains
         read_one users.where(login: login)
       end
 
-      # TODO: move to mixins?
       def create(input)
         entity    = wrap(input)
         row       = to_row(entity)

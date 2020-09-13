@@ -4,7 +4,7 @@ module Domains
   module Post
     class Mapper < LunaPark::Mappers::Simple
       KEYS = %i[
-          id user_id
+          id author_login
           title article
           author_ip
         ].freeze

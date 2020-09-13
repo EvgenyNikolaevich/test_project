@@ -2,17 +2,17 @@
 
 FactoryBot.define do
   factory :post, class: 'Domains::Post::Entity' do
-    title     { 'My first day at work' }
-    article   { 'Today is a great day, because...' }
-    author_ip { '127.0.0.1' }
-    user_id   { 1 }
+    title        { 'My first day at work' }
+    article      { 'Today is a great day, because...' }
+    author_ip    { '127.0.0.1' }
+    author_login { 'Krendel' }
 
     initialize_with do
       Domains::Post::Entity.new(
         author_ip: author_ip,
         title: title,
         article: article,
-        user_id: user_id
+        author_login: author_login
       )
     end
 

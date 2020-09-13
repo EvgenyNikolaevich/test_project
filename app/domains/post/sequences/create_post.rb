@@ -10,13 +10,13 @@ module Domains
           # for some business conditions we can add here some errors like:
           # raise Errors::TitleNotUnique if Post.repo.find_by_login(login)
 
-          post           = Entities::Post.new
-          post.title     = title
-          post.article   = article
-          post.author_ip = ip
-          post.user_id   = user.id
+          post              = Entity.new
+          post.title        = title
+          post.article      = article
+          post.author_ip    = ip
+          post.author_login = user.login
 
-          Domains::Post.repo.create(post)
+          Domains::Post::Repository.new.create(post)
 
           post
         end
@@ -24,7 +24,7 @@ module Domains
         private
 
         def user
-          @user ||= Domains::User.repo.find_or_create_by_login(login)
+          @user ||= Domains::User::Repository.new.find_or_create_by_login(login)
         end
       end
     end
