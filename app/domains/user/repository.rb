@@ -11,10 +11,11 @@ module Domains
       end
 
       def find_by_login(login)
-        read_one users.where(login: login)
+        read_one users.where(login: login).first
       end
 
       def create(input)
+        input     = User::Entity.wrap(login: input) if input.is_a?(String)
         entity    = wrap(input)
         row       = to_row(entity)
         new_row   = dataset.returning.insert(row).first

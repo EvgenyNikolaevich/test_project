@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require 'securerandom'
+
 FactoryBot.define do
   factory :user, class: 'Domains::User::Entity' do
-    login { 'Awesome User' }
+    login { SecureRandom.hex }
 
     initialize_with { Domains::User::Entity.new(login: login) }
 

@@ -3,6 +3,8 @@
 require 'sinatra/base'
 
 class ApiController < Sinatra::Base
+  include Endpoints::Helper
+
   set :show_exceptions, false
   set :raise_errors, true
 
