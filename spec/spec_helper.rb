@@ -34,4 +34,15 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
   config.include FactoryBot::Syntax::Methods
   config.before(:suite) { FactoryBot.find_definitions }
+
+  # Database cleaner
+  config.before(:suite) { db_cleaner.clean_with :truncation }
+
+  config.before(:each)  do
+    db_cleaner.strategy = self.class.metadata[:clean_with] || :transaction
+  end
+
+  config.before(:each)  { db_cleaner.start }
+  config.after(:each)   { db_cleaner.clean }
+  config.after(:suite)  { db_cleaner.clean_with :truncation }
 end
