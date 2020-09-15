@@ -11,7 +11,7 @@ module Domains
         let(:post_id)   { 6 }
 
         let(:sequence) do
-          described_class.call(
+          described_class.call!(
             post_id: post_id,
             rate: 5
           )
@@ -32,8 +32,8 @@ module Domains
 
             before { post_repo.create(post) }
 
-            it { expect(call!.data.rate).to eq expected_rate }
-            it { expect(call!.data.count).to eq expected_count }
+            it { expect(call!.rate).to eq expected_rate }
+            it { expect(call!.count).to eq expected_count }
           end
 
           context 'when rate has already existed' do
@@ -47,8 +47,8 @@ module Domains
               rate_repo.create(rate)
             end
 
-            it { expect(call!.data.rate).to eq expected_rate }
-            it { expect(call!.data.count).to eq expected_count }
+            it { expect(call!.rate).to eq expected_rate }
+            it { expect(call!.count).to eq expected_count }
           end
         end
       end
