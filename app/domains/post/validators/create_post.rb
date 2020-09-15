@@ -12,8 +12,8 @@ module Domains
             required(:data).hash do
               optional(:type) { eql? 'posts' }
               required(:attributes).hash do
-                required(:title)   { str? }
-                required(:article) { str? }
+                required(:title)   { str? && filled? }
+                required(:article) { str? && filled? }
                 # according to technical requirement they are not required
                 optional(:login)   { str? }
                 optional(:ip).filled(:string, format?: IP_PATTERN)

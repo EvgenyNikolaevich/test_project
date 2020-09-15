@@ -11,5 +11,13 @@ module Endpoints
         end
       end
     end
+
+    post '/posts/rate', provides: :json do
+      submit! form: Domains::Post::Forms::RatePost, with: params do |form|
+        check! form.result do |_rate|
+          status 200
+        end
+      end
+    end
   end
 end

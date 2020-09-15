@@ -8,7 +8,7 @@ module Domains
       describe CreatePost do
         let(:post) { build :post }
         let(:sequence) do
-          described_class.call(
+          described_class.call!(
             title: post.title,
             article: post.article,
             login: user.login,
@@ -28,8 +28,8 @@ module Domains
             it 'created post has data' do
               expect(call!.title).to eq post.title
               expect(call!.article).to eq post.article
-              expect(call!.ip).to eq post.author_ip
-              expect(call!.login).to eq user.login
+              expect(call!.author_ip).to eq post.author_ip
+              expect(call!.author_login).to eq user.login
             end
           end
         end
