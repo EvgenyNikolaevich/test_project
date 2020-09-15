@@ -17,7 +17,7 @@ module Domains
           else
             DB.transaction do
               post_rate.count += 1
-              post_rate.rate /= (rate + count)
+              post_rate.rate = ((rate + post_rate.rate) / post_rate.count).round(2)
               repo.update(post_rate)
             end
           end
@@ -30,12 +30,12 @@ module Domains
         end
 
         def post_rate
-          @post_rate ||= repo.find_by_post(post_id)
+          @post_rate ||= repo.find_by_post_id(post_id)
         end
 
         # we can move it in file like errors.rb
         module Errors
-          class PostNotExist < LunaPark::Errors::Processing
+          class PostNotExist < RuntimeError
             def message
               'Post with such id does not exist'
             end

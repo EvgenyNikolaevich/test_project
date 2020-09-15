@@ -31,6 +31,7 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  config.raise_errors_for_deprecations!
   config.shared_context_metadata_behavior = :apply_to_host_groups
   config.include FactoryBot::Syntax::Methods
   config.before(:suite) { FactoryBot.find_definitions }
