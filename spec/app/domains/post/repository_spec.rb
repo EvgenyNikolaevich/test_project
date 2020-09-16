@@ -26,7 +26,7 @@ module Domains
 
         subject { repo.find(entity.id) }
 
-        context 'post exists' do
+        context 'when post exists' do
           before { repo.create entity }
 
           it { is_expected.to be_an_instance_of Entity }
@@ -36,7 +36,7 @@ module Domains
           end
         end
 
-        context 'post does not exist' do
+        context 'when post does not exist' do
           it { is_expected.to be_nil }
         end
       end
@@ -46,14 +46,34 @@ module Domains
 
         subject { repo.exists?(entity.id) }
 
-        context 'post with id already exists' do
+        context 'when post with id already exists' do
           before { repo.create entity }
 
           it { is_expected.to eq true }
         end
 
-        context 'post with id does not exists' do
+        context 'when post with id does not exists' do
           it { is_expected.to eq false }
+        end
+      end
+
+      describe '#find_by_ids' do
+        subject { repo.find_by_ids(expected_array) }
+
+        context 'when find posts successfully' do
+          let!(:posts)         { create_list :post, 5 }
+          let(:expected_array) { posts.map(&:id)[0..2] }
+
+          it { is_expected.to be_an_instance_of Array }
+
+          it { expect(subject.count).to eq(expected_array.count) }
+          it { expect(subject).to include(posts.first) }
+        end
+
+        context 'post does not exist' do
+          let(:expected_array) {}
+
+          it { is_expected.to eq [] }
         end
       end
     end

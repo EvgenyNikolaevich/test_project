@@ -6,6 +6,7 @@ FactoryBot.define do
     article      { 'Today is a great day, because...' }
     author_ip    { '127.0.0.1' }
     author_login { 'Krendel' }
+    id           { rand(1..1000) }
 
     initialize_with do
       Domains::Post::Entity.new(

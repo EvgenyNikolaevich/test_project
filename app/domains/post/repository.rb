@@ -10,7 +10,7 @@ module Domains
       def create(input)
         entity    = wrap(input)
         row       = to_row(entity)
-        new_row   = dataset.returning.insert(row).first
+        new_row   = posts.returning.insert(row).first
         new_attrs = from_row(new_row)
         entity.set_attributes(new_attrs)
         entity
@@ -21,7 +21,11 @@ module Domains
       end
 
       def exists?(id)
-        !dataset.where(id: id).empty?
+        !posts.where(id: id).empty?
+      end
+
+      def find_by_ids(ids)
+        read_all posts.where(id: ids)
       end
 
       private
