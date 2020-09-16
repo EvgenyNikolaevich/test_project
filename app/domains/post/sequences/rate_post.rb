@@ -21,7 +21,7 @@ module Domains
         private
 
         def rate_entity
-          @rate_entity ||= Rate::Entity.new(post_id: post_id, rate: rate)
+          @rate_entity ||= Rate::Entity.new(post_id: post_id, rate: rate, count: 1)
         end
 
         def repo

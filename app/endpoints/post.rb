@@ -14,9 +14,16 @@ module Endpoints
 
     post '/posts/rate', provides: :json do
       submit! form: Domains::Post::Forms::RatePost, with: params do |form|
-        check! form.result do |_rate|
+        check! form.result do |_result|
           status 200
         end
+      end
+    end
+
+    get '/posts', provides: :json do
+      check! Domains::Post::Sequences::FindPosts.call(number: params[:number]) do |result|
+        status 200
+        Domains::Post::Serializer.serialize(result.data, is_collection: true).to_json
       end
     end
   end
