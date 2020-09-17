@@ -76,6 +76,28 @@ module Domains
           it { is_expected.to eq [] }
         end
       end
+
+      describe '#from_same_ip' do
+        subject { repo.from_same_ip }
+
+        context 'when find posts successfully' do
+          let!(:posts)         { create_list :post, 2, author_ip: '127.0.0.0' }
+          let!(:post)          { create :post }
+          let(:expected_array) { posts.map(&:id) }
+
+          it { is_expected.to be_an_instance_of Array }
+
+          it { expect(subject.count).to eq(expected_array.count) }
+          it { expect(subject).to include(posts.first) }
+          it { expect(subject).to include(posts[1]) }
+        end
+
+        context 'post does not exist' do
+          let(:expected_array) {}
+
+          it { is_expected.to eq [] }
+        end
+      end
     end
   end
 end
