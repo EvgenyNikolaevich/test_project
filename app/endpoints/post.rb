@@ -26,5 +26,12 @@ module Endpoints
         Domains::Post::Serializer.serialize(result.data, is_collection: true).to_json
       end
     end
+
+    get '/posts/ip', provides: :json do
+      check! FindPostsWithSameIp.call do |result|
+        status 200
+        Domains::Post::Serializer.serialize(result.data, is_collection: true).to_json
+      end
+    end
   end
 end
