@@ -82,6 +82,8 @@ GEM
       dry-schema (~> 1.5)
     factory_bot (4.11.1)
       activesupport (>= 3.0.0)
+    faker (2.2.1)
+      i18n (>= 0.8)
     ffi (1.9.25)
     git (1.5.0)
     hashdiff (0.3.7)
@@ -213,6 +215,7 @@ DEPENDENCIES
   debase
   dry-validation
   factory_bot
+  faker
   git
   jsonapi-serializers
   luna_park!

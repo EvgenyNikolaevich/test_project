@@ -32,6 +32,7 @@ gem 'rest-client'
 group :development, :test do
   gem 'debase'
   gem 'factory_bot'
+  gem 'faker'
   gem 'pry'
   gem 'rack-test'
   gem 'rerun' # Code autoreload after change files in dev mode

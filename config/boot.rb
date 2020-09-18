@@ -9,6 +9,7 @@ Bundler.require(:default, APP_ENV)
 
 loader = Zeitwerk::Loader.new # root: APP_ROOT
 loader.preload 'config/initializers'
+loader.preload 'db/seeds.rb'
 loader.preload 'lib/rack'
 loader.push_dir('app')
 loader.setup # ready!
