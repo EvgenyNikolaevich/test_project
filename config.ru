@@ -15,7 +15,6 @@ use Rack::Cors do
   end
 end
 
-# TODO: Share static via Rack only in development mode
 run Rack::URLMap.new(
   '/api/v1' => Api
 )

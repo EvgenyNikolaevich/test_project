@@ -48,4 +48,14 @@ namespace :db do
     Rake::Task['db:create'].invoke
     Rake::Task['db:migrate'].invoke
   end
+
+  desc 'Seeds DB: fill your DB with data'
+  task :seed do
+    require APP_ROOT + '/config/boot'
+
+    include SeedHelper
+
+    load './db/seeds.rb'
+    create_and_save_records
+  end
 end
