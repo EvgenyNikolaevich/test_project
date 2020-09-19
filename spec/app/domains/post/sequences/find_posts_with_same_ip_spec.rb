@@ -14,15 +14,15 @@ module Domains
           subject(:call!) { sequence }
 
           context 'when find posts successfully' do
-            let!(:posts)         { create_list :post, 2, author_ip: '127.0.0.0' }
+            let(:ip)             { '127.0.0.0' }
+            let!(:posts)         { create_list :post, 2, author_ip: ip }
             let!(:post)          { create :post }
             let(:expected_array) { posts.map(&:id) }
 
-            it { is_expected.to be_an_instance_of Array }
+            it { is_expected.to be_an_instance_of Hash }
 
-            it { expect(sequence.count).to eq(expected_array.count) }
-            it { expect(sequence).to include(posts.first) }
-            it { expect(sequence).to include(posts[1]) }
+            it { expect(sequence[ip].count).to eq(expected_array.count) }
+            it { expect(sequence[ip]).to include(posts.first.author_login) }
           end
         end
       end

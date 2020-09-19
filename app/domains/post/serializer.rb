@@ -20,11 +20,6 @@ module Domains
       end
 
       def self_link; end
-
-      # TODO: need?
-      def format_name(attribute_name)
-        attribute_name.to_s
-      end
     end
   end
 end
