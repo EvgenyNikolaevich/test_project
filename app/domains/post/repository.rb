@@ -30,7 +30,7 @@ module Domains
 
       def from_same_ip
         author_ips = 'SELECT author_ip FROM posts GROUP BY 1 HAVING COUNT(author_ip) > 1'
-        read_all posts.where(Sequel.lit("author_ip IN (#{author_ips})"))
+        posts.select(:author_ip, :author_login).where(Sequel.lit("author_ip IN (#{author_ips})"))
       end
 
       private
