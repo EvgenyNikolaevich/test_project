@@ -21,7 +21,7 @@ module Endpoints
     end
 
     get '/posts', provides: :json do
-      check! Domains::Post::Sequences::FindPosts.call(number: params[:number]) do |result|
+      check! Domains::Post::Sequences::FindTopPosts.call(number: params[:number]) do |result|
         status 200
         Domains::Post::Serializers::Post.serialize(result.data, is_collection: true).to_json
       end

@@ -20,12 +20,8 @@ module Domains
         read_one posts.where(id: id).first
       end
 
-      def exists?(id)
-        !posts.where(id: id).empty?
-      end
-
-      def find_by_ids(ids)
-        read_all posts.where(id: ids)
+      def top_rates(number)
+        read_all posts.reverse_order(:rate).limit(number)
       end
 
       def from_same_ip

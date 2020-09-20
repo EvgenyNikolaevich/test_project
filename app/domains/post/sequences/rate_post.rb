@@ -7,15 +7,20 @@ module Domains
         attr_accessor :post_id, :rate
 
         def call!
-          raise Errors::PostNotExist unless Domains::Post::Repository.new.exists?(post_id)
-
-          return repo.create(rate_entity) if post_rate.nil?
+          raise Errors::PostNotExist unless post
 
           DB.transaction do
-            post_rate.count += 1
-            post_rate.rate = ((rate + post_rate.rate) / post_rate.count).round(2)
-            repo.update(post_rate)
+            if post_rate.nil?
+              rate_repo.create(rate_entity)
+            else
+              post_rate.count += 1
+              post_rate.rate = ((rate + post_rate.rate) / post_rate.count).round(2)
+              rate_repo.update(post_rate)
+            end
+            post.rate = rate
           end
+
+          post_rate
         end
 
         private
@@ -24,12 +29,16 @@ module Domains
           @rate_entity ||= Rate::Entity.new(post_id: post_id, rate: rate, count: 1)
         end
 
-        def repo
-          @repo ||= Domains::Rate::Repository.new
+        def rate_repo
+          @rate_repo ||= Domains::Rate::Repository.new
         end
 
         def post_rate
-          @post_rate ||= repo.find_by_post_id(post_id)
+          @post_rate ||= rate_repo.find_by_post_id(post_id)
+        end
+
+        def post
+          @post ||= Domains::Post::Repository.new.find(post_id)
         end
 
         # we can move it in file like errors.rb

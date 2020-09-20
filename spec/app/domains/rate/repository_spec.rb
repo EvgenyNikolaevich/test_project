@@ -38,30 +38,6 @@ module Domains
         end
       end
 
-      describe '#top_rates' do
-        let(:number) { 3 }
-
-        subject { repo.top_rates(number) }
-
-        context 'when find rates' do
-          let!(:rate1)  { create :rate, rate: 3.33 }
-          let!(:rate2)  { create :rate, rate: 1.5 }
-          let!(:rate3)  { create :rate, rate: 4.72 }
-          let!(:rate4)  { create :rate, rate: 4.71 }
-
-          it { is_expected.to be_an_instance_of Array }
-
-          it 'returns the top' do
-            expect(subject).not_to include(rate2)
-            expect(subject.count).to eq number
-          end
-        end
-
-        context 'when does not find any rates' do
-          it { is_expected.to eq [] }
-        end
-      end
-
       describe '#update' do
         let(:updated_entity) { build :rate, post_id: 1, count: 5, rate: 100 }
 

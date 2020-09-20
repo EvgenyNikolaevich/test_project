@@ -29,10 +29,6 @@ module Domains
         entity
       end
 
-      def top_rates(number)
-        read_all rates.reverse_order(:rate).limit(number)
-      end
-
       private
 
       def dataset

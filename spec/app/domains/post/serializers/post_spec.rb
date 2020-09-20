@@ -17,7 +17,8 @@ module Domains
                   'title' => entity.title,
                   'article' => entity.article,
                   'author_login' => entity.author_login,
-                  'author_ip' => entity.author_ip
+                  'author_ip' => entity.author_ip,
+                  'rate' => entity.rate
                 }
               }
             }

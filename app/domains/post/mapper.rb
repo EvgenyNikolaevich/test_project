@@ -7,6 +7,7 @@ module Domains
           id author_login
           title article
           author_ip
+          rate
         ].freeze
 
       class << self
