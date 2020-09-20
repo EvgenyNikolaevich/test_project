@@ -10,35 +10,39 @@ module Domains
           raise Errors::PostNotExist unless post
 
           DB.transaction do
-            if post_rate.nil?
-              rate_repo.create(rate_entity)
+            if rate_by_post_id.nil?
+              rate_repo.create(new_rate)
             else
-              post_rate.count += 1
-              post_rate.rate = ((rate + post_rate.rate) / post_rate.count).round(2)
-              rate_repo.update(post_rate)
+              rate_by_post_id.count += 1
+              rate_by_post_id.rate = ((rate + rate_by_post_id.rate) / rate_by_post_id.count).round(2)
+              rate_repo.update(rate_by_post_id)
             end
-            post.rate = rate
+            post.rate = rate_by_post_id.rate
+            post_repo.update(post)
           end
-
-          post_rate
+          post.rate
         end
 
         private
 
-        def rate_entity
-          @rate_entity ||= Rate::Entity.new(post_id: post_id, rate: rate, count: 1)
+        def new_rate
+          @new_rate ||= Rate::Entity.new(post_id: post_id, rate: rate, count: 1)
         end
 
         def rate_repo
           @rate_repo ||= Domains::Rate::Repository.new
         end
 
-        def post_rate
-          @post_rate ||= rate_repo.find_by_post_id(post_id)
+        def rate_by_post_id
+          @rate_by_post_id ||= rate_repo.find_by_post_id(post_id)
+        end
+
+        def post_repo
+          @post_repo ||= Domains::Post::Repository.new
         end
 
         def post
-          @post ||= Domains::Post::Repository.new.find(post_id)
+          @post ||= post_repo.find(post_id)
         end
 
         # we can move it in file like errors.rb

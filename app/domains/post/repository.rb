@@ -29,6 +29,16 @@ module Domains
         posts.select(:author_ip, :author_login).where(Sequel.lit("author_ip IN (#{author_ips})"))
       end
 
+
+      def update(input)
+        entity  = wrap(input)
+        row     = to_row(entity)
+        new_row = dataset.returning.where(id: entity.id).update(row).first
+        new_attrs = from_row(new_row)
+        entity.set_attributes(new_attrs)
+        entity
+      end
+
       private
 
       def dataset

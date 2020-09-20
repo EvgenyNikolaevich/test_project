@@ -5,8 +5,7 @@ module Endpoints
     post '/posts', provides: :json do
       submit! form: Domains::Post::Forms::CreatePost, with: params do |form|
         check! form.result do |post|
-          # I think we should return 201, not 200
-          status 200
+          status 201
           Domains::Post::Serializers::Post.serialize(post.data).to_json
         end
       end
@@ -14,8 +13,9 @@ module Endpoints
 
     post '/posts/rate', provides: :json do
       submit! form: Domains::Post::Forms::RatePost, with: params do |form|
-        check! form.result do |_result|
+        check! form.result do |result|
           status 200
+          result.data.to_json
         end
       end
     end
@@ -28,7 +28,7 @@ module Endpoints
     end
 
     get '/posts/ip', provides: :json do
-      check! FindPostsWithSameIp.call do |result|
+      check! Domains::Post::Sequences::FindPostsWithSameIp.call do |result|
         status 200
         Domains::Post::Serializers::AuthorInfo.serialize(result.data, is_collection: true).to_json
       end

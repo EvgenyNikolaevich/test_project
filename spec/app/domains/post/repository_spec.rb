@@ -41,6 +41,19 @@ module Domains
         end
       end
 
+      describe '#update' do
+        let(:updated_entity) { build :post, author_login: 'Magic' }
+
+        subject { repo.update(updated_entity) }
+
+        context 'when successfully updated' do
+          let!(:old_entity) { create :post, id: updated_entity.id }
+
+          it { is_expected.to be_an_instance_of Entity }
+          it { is_expected.to eq(updated_entity) }
+        end
+      end
+
       describe '#top_rates' do
         let(:number) { 3 }
 
