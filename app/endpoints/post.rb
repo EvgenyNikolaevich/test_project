@@ -7,7 +7,7 @@ module Endpoints
         check! form.result do |post|
           # I think we should return 201, not 200
           status 200
-          Domains::Post::Serializer.serialize(post.data).to_json
+          Domains::Post::Serializers::Post.serialize(post.data).to_json
         end
       end
     end
@@ -23,14 +23,14 @@ module Endpoints
     get '/posts', provides: :json do
       check! Domains::Post::Sequences::FindPosts.call(number: params[:number]) do |result|
         status 200
-        Domains::Post::Serializer.serialize(result.data, is_collection: true).to_json
+        Domains::Post::Serializers::Post.serialize(result.data, is_collection: true).to_json
       end
     end
 
     get '/posts/ip', provides: :json do
       check! FindPostsWithSameIp.call do |result|
         status 200
-        Domains::Post::Serializer.serialize(result.data, is_collection: true).to_json
+        Domains::Post::Serializers::AuthorInfo.serialize(result.data, is_collection: true).to_json
       end
     end
   end

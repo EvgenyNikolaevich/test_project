@@ -81,21 +81,25 @@ module Domains
         subject { repo.from_same_ip }
 
         context 'when find posts successfully' do
-          let!(:posts)         { create_list :post, 2, author_ip: '127.0.0.0' }
-          let!(:post)          { create :post }
-          let(:expected_array) { posts.map(&:id) }
+          let!(:posts)          { create_list :post, 2, author_ip: '127.0.0.0' }
+          let!(:post)           { create :post }
+          let(:expected_number) { 2 }
 
-          it { is_expected.to be_an_instance_of Array }
+          let(:expected_response) do
+            {
+              author_ip: posts.first.author_ip,
+              author_login: posts.first.author_login
+            }
+          end
 
-          it { expect(subject.count).to eq(expected_array.count) }
-          it { expect(subject).to include(posts.first) }
-          it { expect(subject).to include(posts[1]) }
+          it { expect(subject.count).to eq(expected_number) }
+          it { expect(subject.first).to include(expected_response) }
         end
 
         context 'post does not exist' do
-          let(:expected_array) {}
+          let(:expected_number) { 0 }
 
-          it { is_expected.to eq [] }
+          it { expect(subject.count).to eq(expected_number) }
         end
       end
     end
