@@ -3,14 +3,13 @@
 module Domains
   module Post
     module Sequences
-      class FindPosts < LunaPark::Interactors::Sequence
+      class FindTopPosts < LunaPark::Interactors::Sequence
         attr_accessor :number
 
         def call!
           raise Errors::NumberNotValid unless number.to_i.positive?
 
-          rates = Domains::Rate::Repository.new.top_rates(number)
-          Domains::Post::Repository.new.find_by_ids(rates.map(&:post_id))
+          Domains::Post::Repository.new.top_rates(number)
         end
 
         # we can move it in file like errors.rb

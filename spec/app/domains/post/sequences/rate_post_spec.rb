@@ -6,9 +6,8 @@ module Domains
   module Post
     module Sequences
       describe RatePost do
-        let(:post_repo) { Domains::Post::Repository.new }
-        let(:post)      { build :post, id: post_id }
-        let(:post_id)   { 6 }
+        let!(:post)   { create :post, id: post_id }
+        let(:post_id) { 6 }
 
         let(:sequence) do
           described_class.call!(
@@ -30,8 +29,6 @@ module Domains
             let(:expected_rate)  { 5 }
             let(:expected_count) { 1 }
 
-            before { post_repo.create(post) }
-
             it { expect(call!.rate).to eq expected_rate }
             it { expect(call!.count).to eq expected_count }
           end
@@ -39,13 +36,7 @@ module Domains
           context 'when rate has already existed' do
             let(:expected_rate)  { 1.33 }
             let(:expected_count) { 6 }
-            let(:rate_repo)      { Domains::Rate::Repository.new }
-            let(:rate)           { build :rate, rate: 3, count: 5, post_id: post_id }
-
-            before do
-              post_repo.create(post)
-              rate_repo.create(rate)
-            end
+            let!(:rate)          { create :rate, rate: 3, count: 5, post_id: post_id }
 
             it { expect(call!.rate).to eq expected_rate }
             it { expect(call!.count).to eq expected_count }

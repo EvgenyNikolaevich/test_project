@@ -12,6 +12,7 @@ module Domains
       attr :author_ip
       # foreign_key author_login for table user
       fk   :author_login, :user, pk: :login
+      attr :rate
     end
   end
 end

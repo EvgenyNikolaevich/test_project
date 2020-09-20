@@ -7,6 +7,7 @@ Sequel.migration do
       String   :article,      null: false
       String   :author_login, null: false
       String   :author_ip,    null: false
+      Float    :rate,         default: 0
     end
   end
 end

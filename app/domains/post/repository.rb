@@ -20,17 +20,23 @@ module Domains
         read_one posts.where(id: id).first
       end
 
-      def exists?(id)
-        !posts.where(id: id).empty?
-      end
-
-      def find_by_ids(ids)
-        read_all posts.where(id: ids)
+      def top_rates(number)
+        read_all posts.reverse_order(:rate).limit(number)
       end
 
       def from_same_ip
         author_ips = 'SELECT author_ip FROM posts GROUP BY 1 HAVING COUNT(author_ip) > 1'
         posts.select(:author_ip, :author_login).where(Sequel.lit("author_ip IN (#{author_ips})"))
+      end
+
+
+      def update(input)
+        entity  = wrap(input)
+        row     = to_row(entity)
+        new_row = dataset.returning.where(id: entity.id).update(row).first
+        new_attrs = from_row(new_row)
+        entity.set_attributes(new_attrs)
+        entity
       end
 
       private

@@ -41,38 +41,39 @@ module Domains
         end
       end
 
-      describe '#exists?' do
-        let(:entity) { build :post }
+      describe '#update' do
+        let(:updated_entity) { build :post, author_login: 'Magic' }
 
-        subject { repo.exists?(entity.id) }
+        subject { repo.update(updated_entity) }
 
-        context 'when post with id already exists' do
-          before { repo.create entity }
+        context 'when successfully updated' do
+          let!(:old_entity) { create :post, id: updated_entity.id }
 
-          it { is_expected.to eq true }
-        end
-
-        context 'when post with id does not exists' do
-          it { is_expected.to eq false }
+          it { is_expected.to be_an_instance_of Entity }
+          it { is_expected.to eq(updated_entity) }
         end
       end
 
-      describe '#find_by_ids' do
-        subject { repo.find_by_ids(expected_array) }
+      describe '#top_rates' do
+        let(:number) { 3 }
 
-        context 'when find posts successfully' do
-          let!(:posts)         { create_list :post, 5 }
-          let(:expected_array) { posts.map(&:id)[0..2] }
+        subject { repo.top_rates(number) }
+
+        context 'when find posts with top rates' do
+          let!(:post1)  { create :post, rate: 3.33 }
+          let!(:post2)  { create :post, rate: 1.5 }
+          let!(:post3)  { create :post, rate: 4.72 }
+          let!(:post4)  { create :post, rate: 4.71 }
 
           it { is_expected.to be_an_instance_of Array }
 
-          it { expect(subject.count).to eq(expected_array.count) }
-          it { expect(subject).to include(posts.first) }
+          it 'returns the top' do
+            expect(subject).not_to include(post2)
+            expect(subject.count).to eq(number)
+          end
         end
 
-        context 'post does not exist' do
-          let(:expected_array) {}
-
+        context 'when does not find any rates' do
           it { is_expected.to eq [] }
         end
       end

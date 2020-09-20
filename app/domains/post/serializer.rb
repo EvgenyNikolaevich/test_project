@@ -10,6 +10,7 @@ module Domains
       attribute(:author_login)
       attribute(:article)
       attribute(:author_ip)
+      attribute(:rate)
 
       def type
         :posts

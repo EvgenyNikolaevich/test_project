@@ -7,6 +7,7 @@ FactoryBot.define do
     author_ip    { '127.0.0.1' }
     author_login { 'Krendel' }
     id           { rand(1..1000) }
+    rate         { 1 }
 
     initialize_with do
       Domains::Post::Entity.new(

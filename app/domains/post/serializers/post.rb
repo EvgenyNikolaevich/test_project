@@ -7,7 +7,7 @@ module Domains
       class Post
         include JSONAPI::Serializer
 
-        attributes(:title, :author_login, :article, :author_ip)
+        attributes(:title, :author_login, :article, :author_ip, :rate)
 
         def type
           :posts
